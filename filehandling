@@ -1,0 +1,48 @@
+<?php
+    //FILE HANDLING
+
+    $myFile="box.text";
+    touch($myFile);
+
+    //can be opened for writing??
+    //if not empty this will delet everything so far from the txt
+    if($virtualFileName=fopen($myFile,'w'))
+    {
+        fwrite($virtualFileName,"hello \n");
+        fwrite($virtualFileName,"csüssz \n");
+    }
+    else
+    {
+        echo "Couldn't open file!";
+    }
+
+    fclose($virtualFileName);
+
+    //READING
+    //or die: if it wasnt successful then the program closes with the given message
+    $virtualFileName=fopen($myFile,'r') or die("Error");
+
+    $text="";
+
+    //(while not end of file)
+    while(!feof($virtualFileName))
+    {
+        //how many bites we want to read?
+        $text=fgets($virtualFileName,800);
+        echo "$text<br>";
+    }
+
+    fclose($virtualFileName);
+
+    //to simply add text to the existing lines (append)
+    $virtualFileName=fopen($myFile,'a') or die;("Error");
+    fwrite($virtualFileName,"More text \n");
+    fclose($virtualFileName);
+
+    $virtualFileName=fopen($myFile,'r') or die("error");
+    //the bite where we want to navigate this element
+    fseek($virtualFileName,2);
+    $text=fread($virtualFileName,3);
+    echo $text."<br>";
+    fclose($virtualFileName);
+?>
